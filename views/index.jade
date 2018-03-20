@@ -1,0 +1,24 @@
+extends layout
+
+block content
+
+    h3= "Список веток"
+    ul
+        each val in branchName
+            li
+                if val.current
+                    a.current(href="/git/checkout/#{val.name}") #{val.name}
+                else
+                    a(href="/git/checkout/#{val.name}") #{val.name}
+
+    h3= "История коммитов выбранной ветки"
+    ul
+        each commit in commits
+            li
+                a(href="/git/show/#{commit.commitHash}") #{commit.str}
+
+    h3= "Дерево файлов"
+    ul
+        each file in fileTree
+            li
+                a(href="/git/cat/#{file.hash}") #{file.filePath}

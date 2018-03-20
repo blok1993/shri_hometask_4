@@ -1,0 +1,5 @@
+h3 Дерево файлов для коммита  #{commitHash}
+ul
+    each file in fileTree
+        li
+            a(href="/git/cat/#{file.hash}") #{file.filePath}
