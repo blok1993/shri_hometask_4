@@ -1,0 +1,12 @@
+a(href="/") Home
+
+h3= "Текущий уровень дерева файлов"
+ul
+    li
+        a(href="/nextdir/#{prevDir}") ..
+    each file in interactiveFileTree
+        li
+            if file.dir
+                a(href="/nextdir/#{file.relPath}") #{file.name}
+            else
+                a(href="/readFileByFs/#{file.relPath}") #{file.name}

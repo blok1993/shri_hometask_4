@@ -1,6 +1,6 @@
-let express = require('express');
-let router = express.Router();
 let gitSpawn = require('./gitSpawn');
+let config = require('../config');
+let fs = require('fs');
 
 const gitBranch = (res) => {
     gitSpawn(['branch']).then((branchInfo) => {
@@ -53,9 +53,20 @@ const gitBranch = (res) => {
                 });
 
                 //Формирование объекта для текущего уровня дерева файлов, с возможностью переходов по директориям
+                let interactiveFileTree = [];
 
+                fs.readdirSync(config.get('repoPath')).forEach(function (file) {
+                    let newPath = config.get('repoPath') + "/" + file;
+                    let stat = fs.statSync(newPath);
 
-                res.render('index', { branchName: finalBranchArray, commits: endCommitsArray, fileTree: finalTreeArray});
+                    interactiveFileTree.push({
+                        dir: stat.isDirectory(),
+                        relPath: newPath,
+                        name: file
+                    });
+                });
+
+                res.render('index', { branchName: finalBranchArray, commits: endCommitsArray, fileTree: finalTreeArray, interactiveFileTree: interactiveFileTree});
             });
         });
     });

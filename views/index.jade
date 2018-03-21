@@ -22,3 +22,13 @@ block content
         each file in fileTree
             li
                 a(href="/git/cat/#{file.hash}") #{file.filePath}
+
+    div.interactive-tree
+        h3= "Текущий уровень дерева файлов"
+        ul
+            each file in interactiveFileTree
+                li
+                    if file.dir
+                        a(href="/nextdir/#{file.relPath}") #{file.name}
+                    else
+                        a(href="/readFileByFs/#{file.relPath}") #{file.name}

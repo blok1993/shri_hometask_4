@@ -1,5 +1,3 @@
-let express = require('express');
-let router = express.Router();
 let gitSpawn = require('./gitSpawn');
 
 const showFile = function (req, res) {
