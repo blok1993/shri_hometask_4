@@ -1,6 +1,5 @@
 let gitSpawn = require('./gitSpawn');
 let config = require('../config');
-let fs = require('fs');
 
 const gitBranch = (res) => {
     gitSpawn(['branch']).then((branchInfo) => {
@@ -11,7 +10,7 @@ const gitBranch = (res) => {
         branchArray.pop();
 
         for(let i = 0; i < branchArray.length; i++) {
-            if(branchArray[i][0] === "*") {
+            if (branchArray[i][0] === "*") {
                 finalBranchArray.push({
                     current: true,
                     name: branchArray[i].split(" ")[1]
@@ -38,34 +37,34 @@ const gitBranch = (res) => {
             gitSpawn(['ls-tree', '-r', 'HEAD']).then((treeInfo) => {
                 let treeArray = treeInfo.replace(/\t/g, " ").split('\n');
                 let finalTreeArray = [];
-                let interactiveTree = [];
+                let tempDirArray = [];
 
                 //Избавляемся от последнего пустого элемента массива
                 treeArray.pop();
 
                 treeArray.forEach((el) => {
-                    finalTreeArray.push({
-                        hash: el.split(" ")[2],
-                        filePath: el.split(" ")[3],
-                        str: el
-                    });
+                    let filePath = el.split(" ")[3];
+
+                    if (filePath.indexOf('/') > -1) {
+                        let dirName = filePath.split('/')[0];
+
+                        if (tempDirArray.indexOf(dirName) === -1) {
+                            finalTreeArray.push({
+                                filePath: dirName
+                            });
+
+                            tempDirArray.push(dirName);
+                        }
+                    } else {
+                        finalTreeArray.push({
+                            hash: el.split(" ")[2],
+                            filePath: el.split(" ")[3],
+                            str: el
+                        });
+                    }
                 });
 
-                //Формирование объекта для текущего уровня дерева файлов, с возможностью переходов по директориям
-                let interactiveFileTree = [];
-
-                fs.readdirSync(config.get('repoPath')).forEach((file) => {
-                    let newPath = config.get('repoPath') + "/" + file;
-                    let stat = fs.statSync(newPath);
-
-                    interactiveFileTree.push({
-                        dir: stat.isDirectory(),
-                        relPath: newPath,
-                        name: file
-                    });
-                });
-
-                res.render('index', { branchName: finalBranchArray, commits: endCommitsArray, fileTree: finalTreeArray, interactiveFileTree: interactiveFileTree});
+                res.render('index', { branchName: finalBranchArray, commits: endCommitsArray, fileTree: finalTreeArray});
             });
         });
     });

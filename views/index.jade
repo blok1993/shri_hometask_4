@@ -15,20 +15,13 @@ block content
     ul
         each commit in commits
             li
-                a(href="/git/show/#{commit.commitHash}") #{commit.str}
+                a(href="/git/show/#{commit.commitHash}/initialSecretValue") #{commit.str}
 
     h3= "Дерево файлов"
     ul
         each file in fileTree
             li
-                a(href="/git/cat/#{file.hash}") #{file.filePath}
-
-    div.interactive-tree
-        h3= "Текущий уровень дерева файлов"
-        ul
-            each file in interactiveFileTree
-                li
-                    if file.dir
-                        a(href="/nextdir/#{file.relPath}") #{file.name}
-                    else
-                        a(href="/readFileByFs/#{file.relPath}") #{file.name}
+                if file.hash
+                    a(href="/git/cat/#{file.hash}") #{file.filePath}
+                else
+                    a(href="/git/show/#{commits[0].commitHash}/#{file.filePath}") #{file.filePath}

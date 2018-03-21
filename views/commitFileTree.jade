@@ -2,6 +2,11 @@ a(href="/") Home
 
 h3 Дерево файлов для коммита  #{commitHash}
 ul
+    li
+        a(href="/git/show/#{commitHash}/#{prevDir}") ..
     each file in fileTree
         li
-            a(href="/git/cat/#{file.hash}") #{file.filePath}
+            if file.hash
+                a(href="/git/cat/#{file.hash}") #{file.filePath}
+            else
+                a(href="/git/show/#{commitHash}/#{file.filePath}") #{file.dirName}
