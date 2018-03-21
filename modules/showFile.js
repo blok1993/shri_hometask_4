@@ -1,6 +1,6 @@
 let gitSpawn = require('./gitSpawn');
 
-const showFile = function (req, res) {
+const showFile = (req, res) => {
     let file = req.params.param;
 
     gitSpawn(['cat-file', 'blob', file]).then((result) => {

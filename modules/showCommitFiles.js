@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let gitSpawn = require('./gitSpawn');
 
-const showCommitFiles = function (req, res) {
+const showCommitFiles = (req, res) => {
     let commitHash = req.params.param;
 
     //Получаем список всех файлов у конкретного коммита

@@ -8,7 +8,7 @@ let gitBranch = require('../modules/gitBranch');
 let showInteractiveFilesTree = require('../modules/interactiveFilesTree');
 let readFileByFs = require('../modules/readFileByFs');
 
-const checkout = function(req, res) {
+const checkout = (req, res) => {
     let branch = req.params.branch;
 
     gitSpawn(['checkout', branch]).then((err) => {

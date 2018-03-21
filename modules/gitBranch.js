@@ -55,7 +55,7 @@ const gitBranch = (res) => {
                 //Формирование объекта для текущего уровня дерева файлов, с возможностью переходов по директориям
                 let interactiveFileTree = [];
 
-                fs.readdirSync(config.get('repoPath')).forEach(function (file) {
+                fs.readdirSync(config.get('repoPath')).forEach((file) => {
                     let newPath = config.get('repoPath') + "/" + file;
                     let stat = fs.statSync(newPath);
 
