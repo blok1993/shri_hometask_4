@@ -9,7 +9,7 @@ const gitBranch = (res) => {
         //Избавляемся от последнего пустого элемента массива
         branchArray.pop();
 
-        for(let i = 0; i < branchArray.length; i++) {
+        for (let i = 0; i < branchArray.length; i++) {
             if (branchArray[i][0] === "*") {
                 finalBranchArray.push({
                     current: true,
